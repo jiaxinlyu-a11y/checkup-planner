@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Check-up Planner</title>
+  <meta name="description" content="A personalised check-up plan from age, sex, lifestyle, work environment and family history, built from published screening guidelines." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <main class="tool-wrap">
+    <div class="tool-top">
+      <p class="eyebrow" data-i18n="eyebrow">Self-built tool</p>
+      <button type="button" class="lang-btn" id="langBtn" data-i18n="langBtn">中文</button>
+    </div>
+    <h1 data-i18n="title">Check-up Planner</h1>
+    <p class="tool-lead" data-i18n-html="lead"></p>
+
+    <div class="tool-grid">
+      <form class="ck-form" id="ck-form" autocomplete="off" onsubmit="return false">
+
+        <fieldset>
+          <legend data-i18n="aboutYou">About you</legend>
+          <div class="ck-row">
+            <div class="ck-field"><label class="lbl" for="age" data-i18n="age">Age</label><input type="number" id="age" min="15" max="110" inputmode="numeric" /></div>
+            <div class="ck-field"><label class="lbl" for="height" data-i18n="height">Height (cm)</label><input type="number" id="height" min="100" max="230" inputmode="numeric" /></div>
+            <div class="ck-field"><label class="lbl" for="weight" data-i18n="weight">Weight (kg)</label><input type="number" id="weight" min="30" max="250" inputmode="numeric" /></div>
+          </div>
+          <p class="ck-bmi" id="bmiOut"></p>
+          <p class="ck-q" data-i18n="sex">Sex</p>
+          <label class="ck-opt"><input type="radio" name="sex" value="f" /> <span data-i18n="female">Female</span></label>
+          <label class="ck-opt"><input type="radio" name="sex" value="m" /> <span data-i18n="male">Male</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="lifestyle">Lifestyle</legend>
+          <p class="ck-q" style="margin-top:0" data-i18n="smoking">Smoking</p>
+          <label class="ck-opt"><input type="radio" name="smoking" value="never" checked /> <span data-i18n="never">Never smoked</span></label>
+          <label class="ck-opt"><input type="radio" name="smoking" value="former" /> <span data-i18n="former">Used to smoke</span></label>
+          <label class="ck-opt"><input type="radio" name="smoking" value="current" /> <span data-i18n="current">Smoke now</span></label>
+          <div id="smokeDetail" hidden>
+            <div class="ck-row ck-sub">
+              <div class="ck-field"><label class="lbl" for="packYears" data-i18n="packYears">Pack-years</label><input type="number" id="packYears" min="0" max="200" /></div>
+              <div class="ck-field" id="quitWrap" hidden><label class="lbl" for="quitYears" data-i18n="quitYears">Years since quitting</label><input type="number" id="quitYears" min="0" max="80" /></div>
+            </div>
+            <p class="ck-hint ck-sub" style="margin-top:-.2rem" data-i18n="packHint">Pack-years = packs per day × years smoked.</p>
+          </div>
+
+          <p class="ck-q" data-i18n="alcohol">Alcohol</p>
+          <label class="ck-opt"><input type="radio" name="alcohol" value="none" checked /> <span data-i18n="alcNone">None</span></label>
+          <label class="ck-opt"><input type="radio" name="alcohol" value="some" /> <span data-i18n="alcSome">Sometimes</span></label>
+          <label class="ck-opt"><input type="radio" name="alcohol" value="regular" /> <span data-i18n="alcRegular">Regularly</span></label>
+
+          <p class="ck-q" data-i18n="habits">Habits</p>
+          <label class="ck-opt"><input type="checkbox" id="shortSleep" /> <span data-i18n="shortSleep">I usually sleep under 7 hours</span></label>
+          <label class="ck-opt"><input type="checkbox" id="takeout" /> <span data-i18n="takeout">I often eat takeout or shared dishes</span></label>
+          <label class="ck-opt"><input type="checkbox" id="screenLong" /> <span data-i18n="screenLong">Long hours at a screen (work or gaming)</span></label>
+          <div id="eyeWrap" class="ck-sub" hidden>
+            <label class="ck-opt"><input type="checkbox" id="eyeSymptoms" /> <span data-i18n="eyeSymptoms">Dry, tired or blurred eyes, or headaches</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="riskWork">Risk group and work</legend>
+          <label class="ck-opt"><input type="checkbox" id="infectionRisk" /> <span><span data-i18n="infectionRisk">I am at higher risk of infection</span> <span class="ck-opt-note" data-i18n="infectionNote">as defined in the USPSTF recommendations</span></span></label>
+          <label class="ck-opt" id="sexActiveWrap" hidden><input type="checkbox" id="sexActive" /> <span data-i18n="sexActive">I am sexually active</span></label>
+          <label class="ck-opt"><input type="checkbox" id="hbvContact" /> <span data-i18n="hbvContact">Someone I live with, or my sexual partner, has hepatitis B</span></label>
+          <label class="ck-opt"><input type="checkbox" id="thyroidSymptom" /> <span data-i18n="thyroidSymptom">A neck lump, hoarseness or trouble swallowing</span></label>
+          <label class="ck-opt"><input type="checkbox" id="thyroidRadiation" /> <span data-i18n="thyroidRadiation">Past radiation to the head or neck, such as treatment in childhood</span></label>
+          <label class="ck-opt"><input type="checkbox" id="hpHousehold" /> <span data-i18n="hpHousehold">Someone I live with has H. pylori</span></label>
+
+          <p class="ck-q" data-i18n="workInvolves">My work involves</p>
+          <label class="ck-opt"><input type="checkbox" id="occNoise" /> <span data-i18n="occNoise">Loud noise (85 dB or more over a work day)</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occSilica" /> <span data-i18n="occSilica">Silica dust (mining, stone, sand, cement, foundry)</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occLead" /> <span data-i18n="occLead">Lead</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occBenzene" /> <span data-i18n="occBenzene">Benzene</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occFormaldehyde" /> <span data-i18n="occFormaldehyde">Formaldehyde</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occToluene" /> <span data-i18n="occToluene">Toluene or xylene</span></label>
+          <label class="ck-opt"><input type="checkbox" id="occHeat" /> <span data-i18n="occHeat">High-temperature workplaces</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="family">Family history (optional)</legend>
+          <p class="ck-hint" style="margin:0 0 .6rem" data-i18n="famHint">Leave blank if you do not know. Parents, siblings and children count as first-degree relatives.</p>
+          <label class="ck-opt" id="famBreastWrap" hidden><input type="checkbox" id="famBreast" /> <span data-i18n="famBreast">Breast, ovarian, tubal or peritoneal cancer in the family</span></label>
+          <label class="ck-opt"><input type="checkbox" id="famDiabetes" /> <span data-i18n="famDiabetes">Diabetes in a parent, sibling or child</span></label>
+          <label class="ck-opt"><input type="checkbox" id="famCvd" /> <span data-i18n="famCvd">Early heart disease from clogged arteries (such as a heart attack) in a parent, sibling or child: before 55 in men, before 65 in women</span></label>
+          <label class="ck-opt"><input type="checkbox" id="famThyroid" /> <span data-i18n="famThyroid">Thyroid cancer in a parent, sibling or child</span></label>
+          <label class="ck-opt"><input type="checkbox" id="famGastric" /> <span data-i18n="famGastric">Gastric cancer or precancerous lesions in the family</span></label>
+          <p class="ck-q" data-i18n="famCrcQ">Colorectal cancer in a first-degree relative</p>
+          <label class="ck-opt"><input type="radio" name="famCrc" value="none" checked /> <span data-i18n="famNone">None, or I do not know</span></label>
+          <label class="ck-opt"><input type="radio" name="famCrc" value="under60" /> <span data-i18n="famUnder60">Yes, diagnosed before age 60</span></label>
+          <label class="ck-opt"><input type="radio" name="famCrc" value="60plus" /> <span data-i18n="fam60plus">Yes, diagnosed at 60 or older</span></label>
+        </fieldset>
+      </form>
+
+      <div id="results" aria-live="polite"></div>
+    </div>
+
+    <p class="ck-disclaimer" data-i18n="disclaimer"></p>
+
+    <section class="ck-notes" id="sources">
+      <h2 data-i18n="dataTitle">Where the data comes from</h2>
+      <p data-i18n="dataP1"></p>
+      <p data-i18n="levelsIntro"></p>
+      <p data-i18n="starsNote"></p>
+      <ul>
+        <li data-i18n-html="lvGuideline"></li>
+        <li data-i18n-html="lvConsensus"></li>
+        <li data-i18n-html="lvRegulatory"></li>
+        <li data-i18n-html="lvConsider"></li>
+        <li data-i18n-html="lvAgainst"></li>
+      </ul>
+      <p data-i18n="refs"></p>
+      <ul id="srcList"></ul>
+      <p data-i18n="dataEnd"></p>
+    </section>
+  </main>
+
+  <script src="js/rules.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
